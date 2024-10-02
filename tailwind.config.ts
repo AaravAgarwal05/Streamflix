@@ -12,6 +12,12 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        streamflixBold: [`var(--font-streamflix-bold)`, "sans-serif"],
+        streamflixBolder: [`var(--font-streamflix-bolder)`, "sans-serif"],
+        streamflixMedium: [`var(--font-streamflix-medium)`, "sans-serif"],
+        streamflixRegular: [`var(--font-streamflix-regular)`, "sans-serif"],
+      },
     },
   },
   plugins: [],
