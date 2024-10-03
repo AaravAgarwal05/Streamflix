@@ -11,7 +11,15 @@
   :root {
     --background: #141414;
     --foreground: #ededed;
+    --custom-gray: #808080;
+    --custom-red: #ff0000;
   }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
@@ -23,4 +31,22 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+
+  .hideScrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .hideScrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.hideScrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hideScrollbar::-webkit-scrollbar {
+  display: none;
 }

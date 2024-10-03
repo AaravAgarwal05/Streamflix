@@ -11,6 +11,8 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        customGray: "var(--custom-gray)",
+        customRed: "var(--custom-red)",
       },
       fontFamily: {
         streamflixBold: [`var(--font-streamflix-bold)`, "sans-serif"],
