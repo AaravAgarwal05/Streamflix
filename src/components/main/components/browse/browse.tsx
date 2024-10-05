@@ -134,8 +134,12 @@ const Browse = () => {
   return (
     <div className="flex-[2.5] h-full w-full flex flex-col justify-center items-start gap-14 ">
       <div className="flex text-xl font-streamflixBold px-14">
-        <span>STREAM</span>
-        <span className="text-customRed">FLIX</span>
+        <Link href={"/"}>
+          <button>
+            <span>STREAM</span>
+            <span className="text-customRed">FLIX</span>
+          </button>
+        </Link>
       </div>
       <div className="flex flex-col gap-5 text-lg text font-streamflixMedium text-customGray">
         <span className="px-14">Entertainment Hub</span>

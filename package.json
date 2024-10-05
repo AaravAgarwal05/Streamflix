@@ -9,9 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "iron-session": "^8.0.3",
+    "ldrs": "^1.0.2",
+    "mongoose": "^8.7.0",
     "next": "14.2.13",
     "react": "^18",
     "react-dom": "^18",
+    "react-loader-spinner": "^6.1.6",
     "sharp": "^0.33.5"
   },
   "devDependencies": {
