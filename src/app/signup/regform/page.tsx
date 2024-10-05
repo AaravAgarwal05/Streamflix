@@ -83,7 +83,7 @@ const RegForm = () => {
           Create a password to start your membership
         </div>
         <div className="font-streamflixRegular text-xl self-start">
-          <div>Just a few more steps and you're done!</div>
+          <div>Just a few more steps and you&apos;re done!</div>
           <div>We hate paperwork, too.</div>
         </div>
         <div className="relative flex flex-col w-full gap-2 email">
