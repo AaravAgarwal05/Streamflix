@@ -1,7 +1,7 @@
 "use client";
 import React, { ChangeEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getUser } from "@/actions/serveraction";
+import { findUser } from "@/actions/serverAction";
 import { TailSpin } from "react-loader-spinner";
 
 const Login = () => {
@@ -25,7 +25,7 @@ const Login = () => {
   const handleLogin = async () => {
     localStorage.setItem("email", email);
     console.log("finding user");
-    const user = await getUser(email);
+    const user = await findUser(email);
     console.log("user found");
     if (user) {
       router.push("/login");

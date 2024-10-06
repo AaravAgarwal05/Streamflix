@@ -1,6 +1,6 @@
 import React from "react";
-import Login from "../components/login";
-import Quarter from "../components/quarter";
+import Login from "./login";
+import Quarter from "./quarter";
 
 const Hero = () => {
   return (

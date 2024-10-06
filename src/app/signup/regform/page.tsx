@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, ChangeEvent, useEffect } from "react";
-import { createUser } from "@/actions/serveraction";
+import { useRouter } from "next/navigation";
+import { createUser, signIn } from "@/actions/serverAction";
 
 const RegForm = () => {
   const [email, setEmail] = useState<string>("");
@@ -12,6 +13,7 @@ const RegForm = () => {
   const [isEmailBlur, setIsEmailBlur] = useState<boolean>(false);
   const [isPasswordBlur, setIsPasswordBlur] = useState<boolean>(true);
   const [passwordError, setPasswordError] = useState<string>("");
+  const router = useRouter();
 
   useEffect(() => {
     const storedEmail = localStorage.getItem("email");
@@ -69,6 +71,10 @@ const RegForm = () => {
     console.log("Creating user...");
     await createUser(email, password);
     console.log("User created successfully");
+    console.log("Signing in user...");
+    await signIn(email, password);
+    console.log("User signed in successfully");
+    router.push("/home");
   };
 
   return (

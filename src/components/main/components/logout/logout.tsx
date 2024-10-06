@@ -1,5 +1,7 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { signOut } from "@/actions/serverAction";
 
 interface LogoutIconProps {
   color1?: string;
@@ -21,6 +23,7 @@ const LogoutIcon: React.FC<LogoutIconProps> = ({ color1 }) => {
 };
 
 const Logout = () => {
+  const router = useRouter();
   const [logoutColors, setLogoutColors] = useState(["gray"]);
   return (
     <div className="flex-[1] h-full w-full flex px-14 items-center justify-start font-streamflixMedium">
@@ -28,6 +31,10 @@ const Logout = () => {
         className="flex items-center gap-5 text-sm transition-all ease-in-out text-customGray hover:text-foreground hover:text-lg"
         onMouseEnter={() => setLogoutColors(["var(--foreground)"])}
         onMouseLeave={() => setLogoutColors(["gray"])}
+        onClick={() => {
+          signOut();
+          router.push("/");
+        }}
       >
         <LogoutIcon color1={logoutColors[0]} />
         Log Out
