@@ -92,17 +92,14 @@ export const signIn = async (userEmail: string, userPassword: string) => {
       console.log("User signed in successfully");
     } else {
       console.error("Failed to sign in user");
+      throw new Error("Failed to sign in user");
     }
   } catch (err) {
-    console.error("Failed to sign in user");
+    console.error(err);
   }
 };
 export const signOut = async () => {
-  try {
-    const session = await getSession();
-    session.destroy();
-    console.log("User signed out successfully");
-  } catch (err) {
-    console.error("Failed to sign out user");
-  }
+  const session = await getSession();
+  session.destroy();
+  console.log("User signed out successfully");
 };

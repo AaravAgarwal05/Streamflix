@@ -122,11 +122,11 @@ const Browse = () => {
   };
 
   useEffect(() => {
-    if (isActive("/home")) {
+    if (pathname === "/home") {
       setExploreColors(["red", "white", "red"]);
-    } else if (isActive("/watchlist")) {
+    } else if (pathname === "/watchlist") {
       setWatchListColors(["red", "red"]);
-    } else if (isActive("/comingsoon")) {
+    } else if (pathname === "/comingsoon") {
       setComingSoonColors(["red", "red", "white"]);
     }
   }, [pathname]);

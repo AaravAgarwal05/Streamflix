@@ -1,4 +1,6 @@
 import React from "react";
+import Image from "next/image";
+import ProfilePic from "@/assets/images/Profile Pic.png"
 
 const Followers = () => {
   return (
@@ -12,8 +14,10 @@ const Followers = () => {
               className="flex items-center justify-between w-full h-16"
             >
               <div className="flex items-center justify-between gap-4 text-sm">
-                <img
-                  src="https://occ-0-2085-2186.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABbOdxVGFQdDOSc_7_L0-hjORAtpBTqRGJTW_EtUxvzax0sWSE-nfu338JptRALo21408x4T7pJn8NOyyx4a5lg1CtOSag3NkAXCK.png?r=b38"
+                <Image
+                  src={ProfilePic}
+                  height="32"
+                  width="32"
                   alt="User Avatar"
                   className="w-8 h-8 bg-center bg-cover rounded-full"
                 />
