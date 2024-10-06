@@ -1,7 +1,7 @@
 "use client";
 import React, { ChangeEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { findUser } from "@/actions/serverAction";
+import { findUser } from "@/actions/serverActions";
 import { TailSpin } from "react-loader-spinner";
 
 const Login = () => {

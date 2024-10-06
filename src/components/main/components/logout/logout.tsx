@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signOut } from "@/actions/serverAction";
+import { signOut } from "@/actions/serverActions";
 
 interface LogoutIconProps {
   color1?: string;

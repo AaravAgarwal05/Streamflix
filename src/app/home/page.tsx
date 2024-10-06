@@ -3,7 +3,7 @@ import Navigation from "./components/navigation/navigation";
 import Main from "../../components/main/main";
 import Partition from "../../components/partition/partition";
 import { redirect } from "next/navigation";
-import { getSession } from "@/actions/serverAction";
+import { getSession } from "@/actions/serverActions";
 
 const Home = async () => {
   const session = await getSession();

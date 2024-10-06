@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, ChangeEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { createUser, signIn } from "@/actions/serverAction";
+import { createUser, signIn } from "@/actions/serverActions";
 
 const RegForm = () => {
   const [email, setEmail] = useState<string>("");
