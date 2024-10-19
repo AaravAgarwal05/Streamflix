@@ -68,12 +68,8 @@ const RegForm = () => {
   };
 
   const handleLogin = async () => {
-    console.log("Creating user...");
     await createUser(email, password);
-    console.log("User created successfully");
-    console.log("Signing in user...");
     await signIn(email, password);
-    console.log("User signed in successfully");
     router.push("/home");
   };
 

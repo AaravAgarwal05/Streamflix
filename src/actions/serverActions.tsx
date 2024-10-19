@@ -89,15 +89,15 @@ export const signIn = async (userEmail: string, userPassword: string) => {
       session.isBanned = user.isBanned;
       session.isLoggedIn = true;
       await session.save();
-      console.log("User signed in successfully");
+      return { success: true };
     } else {
-      console.error("Failed to sign in user");
-      throw new Error("Failed to sign in user");
+      throw new Error("Invalid email or password");
     }
-  } catch (err) {
-    console.error(err);
+  } catch (err: unknown) {
+    return { success: false, message: (err as Error).message };
   }
 };
+
 export const signOut = async () => {
   const session = await getSession();
   session.destroy();
