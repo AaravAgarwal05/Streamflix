@@ -34,7 +34,7 @@ export const sendMail = async (email: string, emailType: string) => {
       html: `
         <h1>Email Verification</h1>
         <p>Please click the link below to verify your email address.</p>
-        <a href="http://localhost:3000/signup/verifyemail?token=${token}">Verify Email</a>
+        <a href="${process.env.NEXT_PUBLIC_URL}/signup/verifyemail?token=${token}">Verify Email</a>
         `,
     };
     const mailResponse = await transporter.sendMail(mailOptions);
