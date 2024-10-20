@@ -2,6 +2,7 @@
 import React, { useState, ChangeEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createUser, signIn } from "@/actions/serverActions";
+import { TailSpin } from "react-loader-spinner";
 
 const RegForm = () => {
   const [email, setEmail] = useState<string>("");
@@ -13,9 +14,11 @@ const RegForm = () => {
   const [isEmailBlur, setIsEmailBlur] = useState<boolean>(false);
   const [isPasswordBlur, setIsPasswordBlur] = useState<boolean>(true);
   const [passwordError, setPasswordError] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
+    localStorage.removeItem("isVerified");
     const storedEmail = localStorage.getItem("email");
     if (storedEmail) {
       setEmail(storedEmail);
@@ -70,7 +73,7 @@ const RegForm = () => {
   const handleLogin = async () => {
     await createUser(email, password);
     await signIn(email, password);
-    router.push("/home");
+    router.push("/signup/verifyemail");
   };
 
   return (
@@ -173,13 +176,28 @@ const RegForm = () => {
               isEmailValid &&
               email !== "" &&
               isPasswordValid &&
-              password !== ""
+              password !== "" &&
+              !isLoading
             ) {
               handleLogin();
+              setIsLoading(true);
             }
           }}
         >
-          Next
+          {isLoading ? (
+            <TailSpin
+              visible={true}
+              height="30"
+              width="30"
+              color="var(--foreground)"
+              ariaLabel="tail-spin-loading"
+              radius="1"
+              wrapperStyle={{}}
+              wrapperClass=""
+            />
+          ) : (
+            "Next"
+          )}
         </button>
       </div>
     </>

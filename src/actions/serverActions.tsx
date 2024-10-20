@@ -5,6 +5,7 @@ import User from "@/models/user";
 import bcrypt from "bcryptjs";
 import { getIronSession, SessionOptions } from "iron-session";
 import { cookies } from "next/headers";
+import { sendMail } from "./mailer";
 
 export const createUser = async (email: string, password: string) => {
   try {
@@ -23,6 +24,8 @@ export const createUser = async (email: string, password: string) => {
 
     await user.save();
     console.log("User created successfully");
+    verifyEmail(email);
+    console.log("Verification email sent successfully");
   } catch (err) {
     console.error("Failed to create user", err);
     throw err;
@@ -102,4 +105,33 @@ export const signOut = async () => {
   const session = await getSession();
   session.destroy();
   console.log("User signed out successfully");
+};
+
+export const verifyEmail = async (email: string) => {
+  await sendMail(email, "verify");
+  console.log("Verification email sent successfully");
+};
+
+export const verifyToken = async (token: string) => {
+  try {
+    await connectDB();
+    console.log(token);
+    const user = await User.findOne({
+      verificationToken: token,
+      verificationTokenExpires: { $gt: Date.now() },
+    });
+    if (user) {
+      user.isVerified = true;
+      user.verificationToken = undefined;
+      user.verificationTokenExpires = undefined;
+      await user.save();
+      console.log("User verified successfully");
+      return { success: true };
+    } else {
+      return { success: false };
+    }
+  } catch (err) {
+    console.error("Failed to verify user", err);
+    throw err;
+  }
 };

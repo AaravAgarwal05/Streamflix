@@ -7,6 +7,9 @@ interface IUser {
   password: string;
   username: string;
   profilePic?: string;
+  isVerified?: boolean;
+  verificationToken?: string;
+  verificationTokenExpires?: Date;
 }
 
 const userSchema = new Schema<IUser>(
@@ -37,6 +40,16 @@ const userSchema = new Schema<IUser>(
     profilePic: {
       type: String,
       default: "",
+    },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+    },
+    verificationTokenExpires: {
+      type: Date,
     },
   },
   { timestamps: true }
