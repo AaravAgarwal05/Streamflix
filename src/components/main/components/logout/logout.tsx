@@ -28,7 +28,7 @@ const Logout = () => {
   const logout = async () => {
     try {
       const res = await axios.get("/api/users/logout");
-      if (res.status === 200) {
+      if (res.data.status === 200) {
         router.push("/");
       }
     } catch (error: unknown) {
