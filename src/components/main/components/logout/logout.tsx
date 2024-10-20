@@ -28,6 +28,7 @@ const Logout = () => {
   const logout = async () => {
     try {
       const res = await axios.get("/api/users/logout");
+      console.log(res.data);
       if (res.data.status === 200) {
         router.push("/");
       }
