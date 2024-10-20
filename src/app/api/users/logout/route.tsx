@@ -3,12 +3,11 @@ import { signOut } from "@/actions/serverActions";
 
 export async function GET() {
   try {
-    const response = NextResponse.json({
+    await signOut();
+    return NextResponse.json({
       message: "Logout successful",
       status: 200,
     });
-    await signOut();
-    return response;
   } catch (error: unknown) {
     if (error instanceof Error) {
       return NextResponse.json({
