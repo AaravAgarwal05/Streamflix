@@ -1,8 +1,8 @@
 "use client";
 import React, { useState, ChangeEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { createUser, signIn } from "@/actions/serverActions";
 import { TailSpin } from "react-loader-spinner";
+import axios from "axios";
 
 const RegForm = () => {
   const [email, setEmail] = useState<string>("");
@@ -71,9 +71,18 @@ const RegForm = () => {
   };
 
   const handleLogin = async () => {
-    await createUser(email, password);
-    await signIn(email, password);
-    router.push("/signup/verifyemail");
+    try {
+      const res = await axios.post("/api/users/signup", { email, password });
+      if (res.status === 200) {
+        router.push("/signup/verifyemail");
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.error("An unknown error occurred");
+      }
+    }
   };
 
   return (

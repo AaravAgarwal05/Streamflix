@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { verifyToken } from "@/actions/serverActions";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 
 const Verify = () => {
@@ -24,11 +24,18 @@ const Verify = () => {
   }, []);
 
   const verify = async (token: string) => {
-    const response = await verifyToken(token);
-    console.log(response.success);
-    if (response.success) {
-      localStorage.setItem("isVerified", "true");
-      router.push("/signup");
+    try {
+      const res = await axios.post("/api/users/verifyemail", token);
+      if (res.status === 200) {
+        localStorage.setItem("isVerified", "true");
+        router.push("/signup");
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Failed to verify user:", error.message);
+      } else {
+        console.error("Failed to verify user: An unknown error occurred");
+      }
     }
   };
 

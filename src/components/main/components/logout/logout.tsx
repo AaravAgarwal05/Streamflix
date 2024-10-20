@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signOut } from "@/actions/serverActions";
+import axios from "axios";
 
 interface LogoutIconProps {
   color1?: string;
@@ -25,6 +25,20 @@ const LogoutIcon: React.FC<LogoutIconProps> = ({ color1 }) => {
 const Logout = () => {
   const router = useRouter();
   const [logoutColors, setLogoutColors] = useState(["gray"]);
+  const logout = async () => {
+    try {
+      const res = await axios.get("/api/users/logout");
+      if (res.status === 200) {
+        router.push("/");
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.error("An unknown error occurred");
+      }
+    }
+  };
   return (
     <div className="flex-[1] h-full w-full flex px-14 items-center justify-start font-streamflixMedium">
       <button
@@ -32,8 +46,7 @@ const Logout = () => {
         onMouseEnter={() => setLogoutColors(["var(--foreground)"])}
         onMouseLeave={() => setLogoutColors(["gray"])}
         onClick={() => {
-          signOut();
-          router.push("/");
+          logout();
         }}
       >
         <LogoutIcon color1={logoutColors[0]} />

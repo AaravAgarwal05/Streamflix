@@ -11,10 +11,7 @@ export const createUser = async (email: string, password: string) => {
   try {
     await connectDB();
 
-    const saltRounds = 10;
-    const plainPassword = password;
-
-    const hashedPassword = await bcrypt.hash(plainPassword, saltRounds);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = new User({
       email: email,
@@ -23,9 +20,7 @@ export const createUser = async (email: string, password: string) => {
     });
 
     await user.save();
-    console.log("User created successfully");
-    verifyEmail(email);
-    console.log("Verification email sent successfully");
+    sendVerificationEmail(email);
   } catch (err) {
     console.error("Failed to create user", err);
     throw err;
@@ -92,12 +87,17 @@ export const signIn = async (userEmail: string, userPassword: string) => {
       session.isBanned = user.isBanned;
       session.isLoggedIn = true;
       await session.save();
-      return { success: true };
+      console.log("User signed in successfully");
     } else {
       throw new Error("Invalid email or password");
     }
   } catch (err: unknown) {
-    return { success: false, message: (err as Error).message };
+    if (err instanceof Error) {
+      console.error("Failed to sign in user:", err.message);
+    } else {
+      console.error("Failed to sign in user: An unknown error occurred");
+    }
+    throw err;
   }
 };
 
@@ -107,7 +107,7 @@ export const signOut = async () => {
   console.log("User signed out successfully");
 };
 
-export const verifyEmail = async (email: string) => {
+export const sendVerificationEmail = async (email: string) => {
   await sendMail(email, "verify");
   console.log("Verification email sent successfully");
 };

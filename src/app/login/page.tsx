@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, ChangeEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { signIn } from "@/actions/serverActions";
+import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
@@ -49,16 +49,22 @@ const Login = () => {
   };
 
   const handleSignIn = async () => {
-    console.log("Signing in user...");
     try {
-      const response = await signIn(email, password);
-      if (response?.success) {
+      const res = await axios.post("/api/users/login", {
+        email: email,
+        password: password,
+      });
+      if (res.data.status === 200) {
         router.push("/home");
       } else {
         setIsUserValid(false);
       }
-    } catch (err: unknown) {
-      console.log("Error signing in user: ", err);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.error("An unknown error occurred");
+      }
     }
   };
   return (
