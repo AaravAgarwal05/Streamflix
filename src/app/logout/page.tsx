@@ -10,7 +10,7 @@ const Logout = () => {
     const intervalId = setInterval(() => {
       setCounter((prevCounter) => {
         if (prevCounter === 0) {
-          router.refresh();
+          router.push("/");
           clearInterval(intervalId);
         }
         return prevCounter > 0 ? prevCounter - 1 : 0;
@@ -19,7 +19,7 @@ const Logout = () => {
   }, []);
 
   const handleLogout = () => {
-    router.refresh();
+    router.push("/");
   };
 
   return (
@@ -29,7 +29,8 @@ const Logout = () => {
       <h1 className="text-4xl text-white">or</h1>
       <h1 className="text-4xl text-white">
         Click{" "}
-        <span className="text-customRed cursor-pointer"
+        <span
+          className="text-customRed cursor-pointer"
           onClick={() => {
             handleLogout();
           }}
