@@ -28,11 +28,8 @@ const Logout = () => {
   const logout = async () => {
     try {
       const res = await axios.get("/api/users/logout");
-      console.log(res.data);
       if (res.data.status === 200) {
-        console.log("Logged out");
-        router.push("/");
-        console.log("Redirected to login page");
+        router.push("/logout");
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
