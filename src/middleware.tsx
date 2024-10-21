@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
-  const session = request.cookies.get("session");
+  const session = request.cookies.get("session")?.value;
 
   const isPublic = path === "/" || path === "/login" || path === "/signup";
 
