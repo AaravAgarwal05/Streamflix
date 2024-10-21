@@ -4,7 +4,7 @@ export async function middleware(request: NextRequest) {
   const path = new URL(request.nextUrl).pathname;
   const session = request.cookies.get("session");
 
-  const isPublic = path === "/" || path === "/login" || path === "/signup";
+  const isPublic = path === "/" || path === "/login" || path === "/signup" || path === "/logout";
 
   if (!isPublic && !session) {
     return NextResponse.redirect(new URL("/", request.nextUrl).toString());

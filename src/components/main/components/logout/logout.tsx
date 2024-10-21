@@ -29,7 +29,7 @@ const Logout = () => {
     try {
       const res = await axios.get("/api/users/logout");
       if (res.data.status === 200) {
-        router.push("/");
+        router.push("/logout");
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
