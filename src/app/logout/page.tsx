@@ -8,13 +8,14 @@ const Logout = () => {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      if (counter == 0) {
-        router.push("/");
-      } else {
-        setCounter((prev) => prev - 1);
-      }
+      setCounter((prevCounter) => {
+        if (prevCounter === 0) {
+          router.push("/");
+          clearInterval(intervalId);
+        }
+        return prevCounter > 0 ? prevCounter - 1 : 0;
+      });
     }, 1000);
-    return () => clearInterval(intervalId);
   }, []);
 
   const handleLogout = () => {
@@ -22,13 +23,13 @@ const Logout = () => {
   };
 
   return (
-    <div className="w-full h-full flex justify-center items-center bg-background">
+    <div className="w-full h-full flex flex-col gap-5 justify-center items-center bg-background">
       <h1 className="text-4xl text-white">Logged Out</h1>
       <h1 className="text-4xl text-white">Redirecting in {counter} seconds</h1>
       <h1 className="text-4xl text-white">or</h1>
       <h1 className="text-4xl text-white">
         Click{" "}
-        <span
+        <span className="text-customRed cursor-pointer"
           onClick={() => {
             handleLogout();
           }}
