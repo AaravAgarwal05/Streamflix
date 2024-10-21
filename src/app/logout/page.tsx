@@ -10,7 +10,7 @@ const Logout = () => {
     const intervalId = setInterval(() => {
       setCounter((prevCounter) => {
         if (prevCounter === 0) {
-          router.push("/");
+          router.refresh();
           clearInterval(intervalId);
         }
         return prevCounter > 0 ? prevCounter - 1 : 0;
@@ -19,7 +19,7 @@ const Logout = () => {
   }, []);
 
   const handleLogout = () => {
-    router.push("/");
+    router.refresh();
   };
 
   return (
