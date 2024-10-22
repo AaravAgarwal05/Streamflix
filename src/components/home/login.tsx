@@ -1,8 +1,8 @@
 "use client";
 import React, { ChangeEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { findUser } from "@/actions/serverActions";
 import { TailSpin } from "react-loader-spinner";
+import axios from "axios";
 
 const Login = () => {
   const router = useRouter();
@@ -24,13 +24,19 @@ const Login = () => {
 
   const handleLogin = async () => {
     localStorage.setItem("email", email);
-    console.log("finding user");
-    const user = await findUser(email);
-    console.log("user found");
-    if (user) {
-      router.push("/login");
-    } else {
-      router.push("/signup/regform");
+    try {
+      const res = await axios.post("/api/users/findUser", { email: email });
+      if (res.data.status === 200) {
+        router.push("/login");
+      } else {
+        router.push("/signup/regform");
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.error("An unknown error occurred");
+      }
     }
   };
   return (

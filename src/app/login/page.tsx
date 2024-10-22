@@ -14,6 +14,7 @@ const Login = () => {
   const [isPasswordBlur, setIsPasswordBlur] = useState<boolean>(true);
   const [passwordError, setPasswordError] = useState<string>("");
   const [isUserValid, setIsUserValid] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -166,9 +167,11 @@ const Login = () => {
                 isEmailValid &&
                 email !== "" &&
                 isPasswordValid &&
-                password !== ""
+                password !== "" &&
+                !isLoading
               ) {
                 handleSignIn();
+                setIsLoading(true);
               }
             }}
           >

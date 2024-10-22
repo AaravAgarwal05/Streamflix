@@ -25,8 +25,9 @@ const Verify = () => {
 
   const verify = async (token: string) => {
     try {
-      const res = await axios.post("/api/users/verifyemail", token);
-      if (res.status === 200) {
+      const res = await axios.post("/api/users/verifyEmail", { token: token, });
+      console.log(res.data);
+      if (res.data.status === 200) {
         localStorage.setItem("isVerified", "true");
         router.push("/signup");
       }

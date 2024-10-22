@@ -7,6 +7,8 @@ import { getIronSession, SessionOptions } from "iron-session";
 import { cookies } from "next/headers";
 import { sendMail } from "./mailer";
 
+connectDB();
+
 export const createUser = async (email: string, password: string) => {
   try {
     await connectDB();
@@ -115,7 +117,6 @@ export const sendVerificationEmail = async (email: string) => {
 export const verifyToken = async (token: string) => {
   try {
     await connectDB();
-    console.log(token);
     const user = await User.findOne({
       verificationToken: token,
       verificationTokenExpires: { $gt: Date.now() },
@@ -126,12 +127,16 @@ export const verifyToken = async (token: string) => {
       user.verificationTokenExpires = undefined;
       await user.save();
       console.log("User verified successfully");
-      return { success: true };
+      return true;
     } else {
-      return { success: false };
+      return false;
     }
-  } catch (err) {
-    console.error("Failed to verify user", err);
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      console.error("Failed to sign in user:", err.message);
+    } else {
+      console.error("Failed to sign in user: An unknown error occurred");
+    }
     throw err;
   }
 };

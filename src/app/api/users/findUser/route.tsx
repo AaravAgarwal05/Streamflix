@@ -1,21 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyToken } from "@/actions/serverActions";
+import { findUser } from "@/actions/serverActions";
 
 export async function POST(request: NextRequest) {
   try {
     const reqBody = await request.json();
-    const { token } = reqBody;
-    const response = await verifyToken(token);
-    console.log(response);
+    const { email } = reqBody;
+    const response = await findUser(email);
     if (response) {
       return NextResponse.json({
-        message: "User verified successfully",
+        message: "User found successfully",
         status: 200,
       });
     } else {
       return NextResponse.json({
-        message: "Invalid token",
-        status: 400,
+        message: "User not found",
+        status: 404,
       });
     }
   } catch (error: unknown) {

@@ -21,6 +21,13 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/db/connectDB.tsx", "src/app/api/users/verifyemail/route.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/db/connectDB.tsx",
+    "src/app/api/users/verifyEmail/route.tsx"
+  ],
   "exclude": ["node_modules"]
 }
