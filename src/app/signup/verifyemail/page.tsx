@@ -25,7 +25,7 @@ const Verify = () => {
 
   const verify = async (token: string) => {
     try {
-      const res = await axios.post("/api/users/verifyEmail", { token: token });
+      const res = await axios.post("/api/users/verifyemail", { token: token });
       console.log(res.data);
       if (res.data.status === 200) {
         localStorage.setItem("isVerified", "true");

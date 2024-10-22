@@ -27,7 +27,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/db/connectDB.tsx",
-    "src/app/api/users/verifyEmail/route.tsx"
+    "src/app/api/users/verifyemail/route.tsx"
   ],
   "exclude": ["node_modules"]
 }
