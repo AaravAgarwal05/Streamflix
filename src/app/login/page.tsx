@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, ChangeEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { TailSpin } from "react-loader-spinner";
 import axios from "axios";
 
 const Login = () => {
@@ -58,6 +59,7 @@ const Login = () => {
       if (res.data.status === 200) {
         router.push("/home");
       } else {
+        setIsLoading(false);
         setIsUserValid(false);
       }
     } catch (error: unknown) {
@@ -73,7 +75,7 @@ const Login = () => {
       <div className="w-full h-full flex justify-center items-center bg-black bg-opacity-50 shadow-lg shadow-[rgba(31,38,135,0.37)] backdrop-blur-lg backdrop-filter rounded-lg border border-[rgba(255,255,255,0.18)] p-4">
         <div className="h-3/4 w-1/4 bg-black text-4xl font-streamflixBold flex flex-col justify-start items-center p-20">
           <span className="self-start mb-10">Sign In</span>
-          <div className="w-full flex justify-center items-center flex-col gap-5">
+          <div className="w-full flex justify-center items-center flex-col gap-5 font-streamflixRegular">
             <div className="relative flex flex-col w-full gap-2 email">
               <label
                 htmlFor="email"
@@ -175,7 +177,20 @@ const Login = () => {
               }
             }}
           >
-            Sign In
+            {isLoading ? (
+              <TailSpin
+                visible={true}
+                height="30"
+                width="30"
+                color="var(--foreground)"
+                ariaLabel="tail-spin-loading"
+                radius="1"
+                wrapperStyle={{}}
+                wrapperClass=""
+              />
+            ) : (
+              "Sign In"
+            )}
           </button>
         </div>
       </div>
