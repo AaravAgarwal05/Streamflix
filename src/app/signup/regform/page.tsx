@@ -72,7 +72,10 @@ const RegForm = () => {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post("/api/users/signup", { email, password });
+      const res = await axios.post("/api/users/signup", {
+        email: email,
+        password: password,
+      });
       if (res.data.status === 200) {
         router.push("/signup/verifyemail");
       }
