@@ -5,7 +5,6 @@ import { v4 as uuidv4 } from "uuid";
 
 export const sendMail = async (email: string, emailType: string) => {
   try {
-    connectDB();
     const user = await User.findOne({ email });
     if (!user) {
       throw new Error("User not found");

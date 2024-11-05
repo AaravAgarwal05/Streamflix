@@ -24,21 +24,24 @@ const Logout = () => {
 
   return (
     <div className="w-full h-full flex flex-col gap-5 justify-center items-center bg-background">
-      <h1 className="text-4xl text-white">Logged Out</h1>
-      <h1 className="text-4xl text-white">Redirecting in {counter} seconds</h1>
-      <h1 className="text-4xl text-white">or</h1>
-      <h1 className="text-4xl text-white">
-        Click{" "}
-        <span
-          className="text-customRed cursor-pointer"
+      <div className="w-1/4 bg-foreground text-background flex flex-col gap-5 p-10">
+        <div className="text-4xl font-streamflixMedium">Leaving So Soon?</div>
+        <div className="text-lg font-streamflixRegular">
+          Just so you know, you don’t always need to sign out of Netflix. It’s
+          only necessary if you’re on a shared or public computer.
+        </div>
+        <div className="text-lg font-streamflixRegular">
+          You’ll be redirected to streamflix-smoky.vercel .app in {counter} seconds.
+        </div>
+        <button
+          className="flex text-foreground items-center justify-center gap-3 px-6 py-3 text-2xl bg-customRed rounded font-streamflixBold w-full"
           onClick={() => {
             handleLogout();
           }}
         >
-          here
-        </span>{" "}
-        to go back immediately.
-      </h1>
+          Go Now
+        </button>
+      </div>
     </div>
   );
 };

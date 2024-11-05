@@ -1,18 +1,14 @@
 "use server";
 
-import connectDB from "@/db/connectDB";
 import User from "@/models/user";
 import bcrypt from "bcryptjs";
 import { getIronSession, SessionOptions } from "iron-session";
 import { cookies } from "next/headers";
 import { sendMail } from "./mailer";
 
-connectDB();
 
 export const createUser = async (email: string, password: string) => {
   try {
-    await connectDB();
-
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = new User({
@@ -31,8 +27,6 @@ export const createUser = async (email: string, password: string) => {
 
 export const findUser = async (email: string) => {
   try {
-    await connectDB();
-
     const user = await User.findOne({ email: email });
     console.log("User found successfully");
     if (user) {
@@ -74,8 +68,6 @@ export const signIn = async (userEmail: string, userPassword: string) => {
   try {
     const session = await getSession();
 
-    await connectDB();
-
     const user = await User.findOne({
       email: userEmail,
     });
@@ -116,7 +108,6 @@ export const sendVerificationEmail = async (email: string) => {
 
 export const verifyToken = async (token: string) => {
   try {
-    await connectDB();
     const user = await User.findOne({
       verificationToken: token,
       verificationTokenExpires: { $gt: Date.now() },
