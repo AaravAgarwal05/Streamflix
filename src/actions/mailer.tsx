@@ -1,9 +1,11 @@
 import nodemailer from "nodemailer";
+import connectDB from "@/db/connectDB";
 import User from "@/models/user";
 import { v4 as uuidv4 } from "uuid";
 
 export const sendMail = async (email: string, emailType: string) => {
   try {
+    await connectDB();
     const user = await User.findOne({ email });
     if (!user) {
       throw new Error("User not found");
