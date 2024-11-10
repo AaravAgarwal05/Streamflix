@@ -2,6 +2,8 @@
 import React, { useState, ChangeEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { TailSpin } from "react-loader-spinner";
+import ClosedEye from "@/components/eyes/closedeye";
+import OpenEye from "@/components/eyes/openeye";
 import axios from "axios";
 
 const RegForm = () => {
@@ -15,6 +17,7 @@ const RegForm = () => {
   const [isPasswordBlur, setIsPasswordBlur] = useState<boolean>(true);
   const [passwordError, setPasswordError] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -151,13 +154,25 @@ const RegForm = () => {
           >
             Add a password
           </label>
+          {isPasswordFocus && (
+            <div
+              className="absolute right-4 top-4 cursor-pointer"
+              onClick={() => setIsPasswordVisible((prev) => !prev)}
+            >
+              {isPasswordVisible ? (
+                <OpenEye color="var(--foreground)" />
+              ) : (
+                <ClosedEye color="var(--foreground)" />
+              )}
+            </div>
+          )}
           <input
-            type="password"
+            type={isPasswordVisible ? "text" : "password"}
             name="password"
             value={password}
             id="password"
             className={`w-full h-14 pb-2 pt-5 px-4 bg-background text-foreground text-lg border ${
-              !isEmailValid && email !== "" && isPasswordBlur
+              !isPasswordValid && password !== "" && isPasswordBlur
                 ? "border-red-500"
                 : "border-[rgba(118,118,118)]"
             } rounded`}
