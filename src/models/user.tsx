@@ -1,41 +1,45 @@
 import mongoose, { Schema, model } from "mongoose";
 
 interface IUser {
-  email: string;
-  contact?: string;
   name?: string;
-  password: string;
   username: string;
+  email: string;
+  password: string;
+  contact?: string;
   profilePic?: string;
   isVerified?: boolean;
+  isSubscribed?: boolean;
+  subscriptionType?: string;
+  subscriptionStartDate?: Date;
+  subscriptionEndDate?: Date;
   verificationToken?: string;
   verificationTokenExpires?: Date;
 }
 
 const userSchema = new Schema<IUser>(
   {
+    name: {
+      type: String,
+      default: "",
+    },
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     email: {
       type: String,
       required: true,
       unique: true,
       lowercase: true,
     },
-    contact: {
-      type: String,
-      default: "",
-    },
-    name: {
-      type: String,
-      default: "",
-    },
     password: {
       type: String,
       required: true,
     },
-    username: {
+    contact: {
       type: String,
-      required: true,
-      unique: true,
+      default: "",
     },
     profilePic: {
       type: String,
@@ -44,6 +48,20 @@ const userSchema = new Schema<IUser>(
     isVerified: {
       type: Boolean,
       default: false,
+    },
+    isSubscribed: {
+      type: Boolean,
+      default: false,
+    },
+    subscriptionType: {
+      type: String,
+      default: "",
+    },
+    subscriptionStartDate: {
+      type: Date,
+    },
+    subscriptionEndDate: {
+      type: Date,
     },
     verificationToken: {
       type: String,

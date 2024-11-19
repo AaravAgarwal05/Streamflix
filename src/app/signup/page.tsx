@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { useRouter } from "next/navigation";
 
 const Reasons = [
   "No commitments, cancel anytime.",
@@ -23,6 +24,7 @@ const tickIcon = () => {
 };
 
 const SignUp = () => {
+  const router = useRouter();
   return (
     <>
       <div className="h-full w-1/5 mx-auto flex-[1] flex flex-col gap-2 justify-center items-center font-streamflixRegular">
@@ -58,7 +60,12 @@ const SignUp = () => {
             </li>
           ))}
         </ul>
-        <button className="mt-4 flex items-center justify-center w-full px-6 py-4 text-2xl bg-customRed rounded font-streamflixMedium">
+        <button
+          className="mt-4 flex items-center justify-center w-full px-6 py-4 text-2xl bg-customRed rounded font-streamflixMedium"
+          onClick={() => {
+            router.push("/signup/planform");
+          }}
+        >
           Next
         </button>
       </div>

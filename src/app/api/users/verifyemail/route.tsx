@@ -1,23 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyToken } from "@/actions/serverActions";
+import { verifyToken } from "@/server/serverActions";
 
 export async function POST(request: NextRequest) {
   try {
     const reqBody = await request.json();
     const { token } = reqBody;
     const response = await verifyToken(token);
-    console.log(response);
-    if (response) {
-      return NextResponse.json({
-        message: "User verified successfully",
-        status: 200,
+    if (response.status === 200) {
+      const newResponse = NextResponse.json({
+        status: response.status,
+        message: response.message,
       });
-    } else {
-      return NextResponse.json({
-        message: "Invalid token",
-        status: 400,
+      newResponse.cookies.set("token", response.token!, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        path: "/",
+        maxAge: 60 * 60 * 24 * 7,
       });
+      return newResponse;
     }
+    return NextResponse.json({
+      status: response.status,
+      message: response.message,
+    });
   } catch (error: unknown) {
     if (error instanceof Error) {
       return NextResponse.json({

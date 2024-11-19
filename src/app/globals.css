@@ -49,3 +49,8 @@ input:-webkit-autofill:active {
   background: #1e1e1e;
   border-radius: 10px;
 }
+
+.textStroke {
+  -webkit-text-stroke: 2px var(--foreground);
+  color: var(--background);
+}

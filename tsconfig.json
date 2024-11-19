@@ -28,6 +28,6 @@
     ".next/types/**/*.ts",
     "src/db/connectDB.tsx",
     "src/app/api/users/verifyemail/route.tsx"
-  ],
+, "src/components/notification/notification.tsx"  ],
   "exclude": ["node_modules"]
 }

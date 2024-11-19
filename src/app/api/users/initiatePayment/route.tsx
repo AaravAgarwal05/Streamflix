@@ -1,12 +1,15 @@
-import { NextResponse } from "next/server";
-import { signOut } from "@/server/serverActions";
+import { NextRequest, NextResponse } from "next/server";
+import { initiatePayment } from "@/server/serverActions";
 
-export async function GET() {
+export async function POST(request: NextRequest) {
   try {
-    const response = await signOut();
+    const reqBody = await request.json();
+    const { email, amount } = reqBody;
+    const response = await initiatePayment(email, amount);
     return NextResponse.json({
       message: response.message,
       status: response.status,
+      order: response.order,
     });
   } catch (error: unknown) {
     if (error instanceof Error) {

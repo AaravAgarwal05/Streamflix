@@ -5,6 +5,7 @@ import { TailSpin } from "react-loader-spinner";
 import ClosedEye from "@/components/eyes/closedeye";
 import OpenEye from "@/components/eyes/openeye";
 import axios from "axios";
+import showToast from "@/components/showToast/showToast";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
@@ -16,7 +17,6 @@ const Login = () => {
   const [isEmailBlur, setIsEmailBlur] = useState<boolean>(false);
   const [isPasswordBlur, setIsPasswordBlur] = useState<boolean>(true);
   const [passwordError, setPasswordError] = useState<string>("");
-  const [isUserValid, setIsUserValid] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const router = useRouter();
@@ -53,17 +53,34 @@ const Login = () => {
     }
   };
 
-  const handleSignIn = async () => {
+  const handleLogIn = async () => {
+    if (!isEmailValid) {
+      showToast("Please enter a valid email address.", "error");
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 200);
+      return;
+    }
+    if (!isPasswordValid) {
+      showToast(passwordError, "error");
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 200);
+      return;
+    }
     try {
       const res = await axios.post("/api/users/login", {
         email: email,
         password: password,
       });
+      setIsLoading(false);
       if (res.data.status === 200) {
-        router.push("/home");
+        showToast(res.data.message, "success");
+        setTimeout(() => {
+          router.push("/signup/verifyemail");
+        }, 5000);
       } else {
-        setIsLoading(false);
-        setIsUserValid(false);
+        showToast(res.data.message, "error");
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -108,15 +125,10 @@ const Login = () => {
                     setIsEmailFocus(false);
                   }
                 }}
-                onChange={handleEmail}
+                onChange={(e) => {
+                  handleEmail(e);
+                }}
               />
-              {!isEmailValid && isEmailBlur && (
-                <span
-                  className={`text-sm text-red-500 font-streamflixRegular self-start gap-1 flex`}
-                >
-                  Valid Email is required.
-                </span>
-              )}
             </div>
             <div className="relative flex flex-col w-full gap-2 email">
               <label
@@ -159,22 +171,10 @@ const Login = () => {
                     setIsPasswordFocus(false);
                   }
                 }}
-                onChange={handlePassword}
+                onChange={(e) => {
+                  handlePassword(e);
+                }}
               />
-              {!isPasswordValid && password !== "" && isPasswordBlur && (
-                <span
-                  className={`text-sm text-red-500 font-streamflixRegular self-start gap-1 flex`}
-                >
-                  {passwordError}
-                </span>
-              )}
-              {!isUserValid && (
-                <span
-                  className={`text-sm text-red-500 font-streamflixRegular self-start gap-1 flex`}
-                >
-                  Invalid user credentials.
-                </span>
-              )}
             </div>
           </div>
           <button
@@ -187,7 +187,7 @@ const Login = () => {
                 password !== "" &&
                 !isLoading
               ) {
-                handleSignIn();
+                handleLogIn();
                 setIsLoading(true);
               }
             }}

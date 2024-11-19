@@ -1,14 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
-import { signIn } from "@/actions/serverActions";
+import { signIn } from "@/server/serverActions";
 
 export async function POST(request: NextRequest) {
   try {
     const reqBody = await request.json();
     const { email, password } = reqBody;
-    await signIn(email, password);
+    const response = await signIn(email, password);
+    if (response.status === 200) {
+      const newResponse = NextResponse.json({
+        status: response.status,
+        message: response.message,
+      });
+      newResponse.cookies.set("token", response.token!, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        path: "/",
+        maxAge: 60 * 60 * 24 * 7,
+      });
+      return newResponse;
+    }
     return NextResponse.json({
-      message: "User signed in successfully",
-      status: 200,
+      status: response.status,
+      message: response.message,
     });
   } catch (error: unknown) {
     if (error instanceof Error) {

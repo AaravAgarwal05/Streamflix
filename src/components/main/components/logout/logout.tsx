@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import showToast from "@/components/showToast/showToast";
 
 interface LogoutIconProps {
   color1?: string;
@@ -29,7 +30,10 @@ const Logout = () => {
     try {
       const res = await axios.get("/api/users/logout");
       if (res.data.status === 200) {
-        router.push("/logout");
+        showToast(res.data.message, "error");
+        setTimeout(() => {
+          router.push("/logout");
+        }, 5000);
       }
     } catch (error: unknown) {
       if (error instanceof Error) {

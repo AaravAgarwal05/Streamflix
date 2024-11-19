@@ -5,6 +5,7 @@ import { TailSpin } from "react-loader-spinner";
 import ClosedEye from "@/components/eyes/closedeye";
 import OpenEye from "@/components/eyes/openeye";
 import axios from "axios";
+import showToast from "@/components/showToast/showToast";
 
 const RegForm = () => {
   const [email, setEmail] = useState<string>("");
@@ -15,13 +16,12 @@ const RegForm = () => {
   const [isPasswordFocus, setIsPasswordFocus] = useState<boolean>(false);
   const [isEmailBlur, setIsEmailBlur] = useState<boolean>(false);
   const [isPasswordBlur, setIsPasswordBlur] = useState<boolean>(true);
-  const [passwordError, setPasswordError] = useState<string>("");
+  const [passwordError, setPasswordError] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
-    localStorage.removeItem("isVerified");
     const storedEmail = localStorage.getItem("email");
     if (storedEmail) {
       setEmail(storedEmail);
@@ -44,6 +44,7 @@ const RegForm = () => {
   };
 
   const validatePassword = (password: string) => {
+    const errors: string[] = [];
     const passwordLowerCaseRegex = /[a-z]/;
     const passwordUpperCaseRegex = /[A-Z]/;
     const passwordNumberRegex = /[0-9]/;
@@ -57,30 +58,53 @@ const RegForm = () => {
         passwordLengthRegex.test(password)
     );
     if (!passwordLowerCaseRegex.test(password)) {
-      setPasswordError("Password should contain atleast one lowercase letter.");
-    } else if (!passwordUpperCaseRegex.test(password)) {
-      setPasswordError("Password should contain atleast one uppercase letter.");
-    } else if (!passwordNumberRegex.test(password)) {
-      setPasswordError("Password should contain atleast one number.");
-    } else if (!passwordSpecialCharRegex.test(password)) {
-      setPasswordError(
-        "Password should contain atleast one special character [!@#$%^&*]."
-      );
-    } else if (!passwordLengthRegex.test(password)) {
-      setPasswordError("Password should be atleast 8 characters long.");
-    } else {
-      setPasswordError("");
+      errors.push("Password must contain a lowercase letter");
     }
+    if (!passwordUpperCaseRegex.test(password)) {
+      errors.push("Password must contain an uppercase letter");
+    }
+    if (!passwordNumberRegex.test(password)) {
+      errors.push("Password must contain a number");
+    }
+    if (!passwordSpecialCharRegex.test(password)) {
+      errors.push("Password must contain a special character");
+    }
+    if (!passwordLengthRegex.test(password)) {
+      errors.push("Password must be at least 8 characters long");
+    }
+    setPasswordError(errors);
   };
 
-  const handleLogin = async () => {
+  const handleSignIn = async () => {
+    if (!isEmailValid) {
+      showToast("Please enter a valid email address.", "error");
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 200);
+      return;
+    }
+    if (!isPasswordValid) {
+      for (const error of passwordError) {
+        showToast(error, "error");
+      }
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 200);
+      return;
+    }
     try {
       const res = await axios.post("/api/users/signup", {
         email: email,
         password: password,
       });
+      setIsLoading(false);
       if (res.data.status === 200) {
-        router.push("/signup/verifyemail");
+        showToast(res.data.message, "success");
+        setTimeout(() => {
+          router.push("/signup/verifyemail");
+        }, 5000);
+      } else {
+        showToast(res.data.message, "error");
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -137,13 +161,6 @@ const RegForm = () => {
             }}
             onChange={handleEmail}
           />
-          {!isEmailValid && isEmailBlur && (
-            <span
-              className={`text-sm text-red-500 font-streamflixRegular self-start gap-1 flex`}
-            >
-              Valid Email is required.
-            </span>
-          )}
         </div>
         <div className="relative flex flex-col w-full gap-2 email">
           <label
@@ -188,25 +205,12 @@ const RegForm = () => {
             }}
             onChange={handlePassword}
           />
-          {!isPasswordValid && password !== "" && isPasswordBlur && (
-            <span
-              className={`text-sm text-red-500 font-streamflixRegular self-start gap-1 flex`}
-            >
-              {passwordError}
-            </span>
-          )}
         </div>
         <button
           className="mt-4 flex items-center justify-center w-full px-6 py-4 text-2xl bg-customRed rounded font-streamflixMedium"
           onClick={() => {
-            if (
-              isEmailValid &&
-              email !== "" &&
-              isPasswordValid &&
-              password !== "" &&
-              !isLoading
-            ) {
-              handleLogin();
+            if (email !== "" && password !== "" && !isLoading) {
+              handleSignIn();
               setIsLoading(true);
             }
           }}

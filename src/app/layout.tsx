@@ -2,6 +2,7 @@ import React from "react";
 import type { Metadata } from "next";
 import Head from "next/head";
 import localFont from "next/font/local";
+import Notification from "@/components/notification/notification";
 import "./globals.css";
 
 const streamflixBold = localFont({
@@ -26,7 +27,8 @@ const streamflixRegular = localFont({
 
 export const metadata: Metadata = {
   title: "Streamflix",
-  description: "Streamflix is a next generation streaming platform for everyone.",
+  description:
+    "Streamflix is a next generation streaming platform for everyone.",
 };
 
 export default function RootLayout({
@@ -72,7 +74,9 @@ export default function RootLayout({
         </Head>
         <body
           className={`${streamflixBold.variable} ${streamflixBolder.variable} ${streamflixMedium.variable} ${streamflixRegular.variable} antialiased h-screen w-screen`}
+          cz-shortcut-listen="true"
         >
+          <Notification />
           {children}
         </body>
       </html>
