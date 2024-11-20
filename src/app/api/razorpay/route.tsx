@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
       const response = await updateJWTToken(payment.email);
       if (response.status === 200) {
         const newResponse = NextResponse.redirect(
-          `${process.env.PUBLIC_URL}/home?paymentStatus=success`
+          `https://streamflix-smoky.vercel.app/home?paymentStatus=success`
         );
         newResponse.cookies.set("token", response.token!, {
           httpOnly: true,
