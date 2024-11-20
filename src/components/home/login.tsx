@@ -59,7 +59,7 @@ const Login = () => {
             membership.
           </span>
         </div>
-        <div className="relative flex w-full gap-2 mt-2 email">
+        <div className="relative flex w-full gap-2 mt-2 email bg-background">
           <label
             htmlFor="email"
             className={`absolute ${

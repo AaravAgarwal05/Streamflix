@@ -92,7 +92,10 @@ const Login = () => {
   };
   return (
     <>
-      <div className="w-full h-full flex justify-center items-center bg-black bg-opacity-50 shadow-lg shadow-[rgba(31,38,135,0.37)] backdrop-blur-lg backdrop-filter rounded-lg border border-[rgba(255,255,255,0.18)] p-4">
+      <div
+        className="w-full h-full flex justify-center items-center bg-black bg-opacity-50 shadow-lg shadow-[rgba(31,38,135,0.37)] backdrop-blur-lg backdrop-filter rounded-lg border border-[rgba(255,255,255,0.18)] p-4"
+        style={{ backgroundImage: "url(/background.avif)" }}
+      >
         <div className="h-3/4 w-1/4 bg-black text-4xl font-streamflixBold flex flex-col justify-start items-center p-20">
           <span className="self-start mb-10">Sign In</span>
           <div className="w-full flex justify-center items-center flex-col gap-5 font-streamflixRegular">
