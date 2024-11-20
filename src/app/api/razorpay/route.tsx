@@ -64,7 +64,8 @@ export async function POST(request: NextRequest) {
       const response = await updateJWTToken(payment.email);
       if (response.status === 200) {
         const newResponse = NextResponse.redirect(
-          `${process.env.NEXT_PUBLIC_URL}/home?paymentStatus=success`
+          `${process.env.NEXT_PUBLIC_URL}/home?paymentStatus=success`,
+          303
         );
         newResponse.cookies.set("token", response.token!, {
           httpOnly: true,
